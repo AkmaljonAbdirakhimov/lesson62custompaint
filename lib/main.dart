@@ -7,6 +7,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:lesson62custompaint/clock.dart';
 
 void main() {
   runApp(const MainApp());
@@ -39,83 +40,86 @@ class _MainAppState extends State<MainApp> with SingleTickerProviderStateMixin {
   //   image = frameInfo.image;
   // }
 
-  late AnimationController animationController;
-  late Animation<Offset> animation;
-  Offset oldPosition = Offset(0, 0);
-  Offset newPosition = Offset(1, 1);
+  // late AnimationController animationController;
+  // late Animation<Offset> animation;
+  // Offset oldPosition = Offset(0, 0);
+  // Offset newPosition = Offset(1, 1);
 
-  Alignment alignment = Alignment.center;
-  Duration animationDuration = Duration(milliseconds: 1000);
+  // Alignment alignment = Alignment.center;
+  // Duration animationDuration = Duration(milliseconds: 1000);
 
-  @override
-  void initState() {
-    super.initState();
+  // @override
+  // void initState() {
+  //   super.initState();
 
-    animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 2500),
-    );
+  //   animationController = AnimationController(
+  //     vsync: this,
+  //     duration: const Duration(milliseconds: 2500),
+  //   );
 
-    animation = Tween<Offset>(
-      begin: oldPosition,
-      end: newPosition,
-    ).animate(animationController);
+  //   animation = Tween<Offset>(
+  //     begin: oldPosition,
+  //     end: newPosition,
+  //   ).animate(animationController);
 
-    animationController.forward();
+  //   animationController.forward();
 
-    animationController.addListener(() {
-      if (animationController.status == AnimationStatus.completed) {
-        oldPosition = newPosition;
-        newPosition = Offset(
-          Random().nextDouble() * 1,
-          Random().nextDouble() * 1,
-        );
+  //   animationController.addListener(() {
+  //     if (animationController.status == AnimationStatus.completed) {
+  //       oldPosition = newPosition;
+  //       newPosition = Offset(
+  //         Random().nextDouble() * 1,
+  //         Random().nextDouble() * 1,
+  //       );
 
-        animation = Tween<Offset>(
-          begin: oldPosition,
-          end: newPosition,
-        ).animate(animationController);
+  //       animation = Tween<Offset>(
+  //         begin: oldPosition,
+  //         end: newPosition,
+  //       ).animate(animationController);
 
-        animationController.reset();
-        animationController.forward();
-      }
-    });
+  //       animationController.reset();
+  //       animationController.forward();
+  //     }
+  //   });
 
-    Future.delayed(Duration.zero, () {
-      alignment = Alignment.bottomCenter;
-      setState(() {});
-    });
-  }
+  //   Future.delayed(Duration.zero, () {
+  //     alignment = Alignment.bottomCenter;
+  //     setState(() {});
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: AnimatedAlign(
-          alignment: alignment,
-          duration: animationDuration,
-          onEnd: () {
-            oldPosition = newPosition;
-            newPosition = Offset(
-              Random().nextDouble() * 100,
-              Random().nextDouble() * 100,
-            );
-            double distance = sqrt(
-              pow(newPosition.dx - oldPosition.dx, 2) +
-                  pow(newPosition.dy - oldPosition.dy, 2),
-            );
-            double velocity = 100 / 1000; // Birlik/ms
-            int duration = (distance / velocity).round(); // Millisoniya
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Clock(),
 
-            animationDuration = Duration(milliseconds: duration * 2);
-            alignment = Alignment(newPosition.dx / 100, newPosition.dy / 100);
-            setState(() {});
-          },
-          child: CustomPaint(
-            painter: MyAnimatedCustomPainter(),
-          ),
-        ),
-      ),
+      // Scaffold(
+      //   body: AnimatedAlign(
+      //     alignment: alignment,
+      //     duration: animationDuration,
+      //     onEnd: () {
+      //       oldPosition = newPosition;
+      //       newPosition = Offset(
+      //         Random().nextDouble() * 100,
+      //         Random().nextDouble() * 100,
+      //       );
+      //       double distance = sqrt(
+      //         pow(newPosition.dx - oldPosition.dx, 2) +
+      //             pow(newPosition.dy - oldPosition.dy, 2),
+      //       );
+      //       double velocity = 100 / 1000; // Birlik/ms
+      //       int duration = (distance / velocity).round(); // Millisoniya
+
+      //       animationDuration = Duration(milliseconds: duration * 2);
+      //       alignment = Alignment(newPosition.dx / 100, newPosition.dy / 100);
+      //       setState(() {});
+      //     },
+      //     child: CustomPaint(
+      //       painter: MyAnimatedCustomPainter(),
+      //     ),
+      //   ),
+      // ),
     );
   }
 }
